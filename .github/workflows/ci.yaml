@@ -30,6 +30,8 @@ jobs:
 
       - name: Validate SAM template
         run: sam validate
+        env:
+          AWS_DEFAULT_REGION: us-west-2
 
       - name: Build SAM project
         run: sam build

@@ -1,0 +1,18 @@
+Resources:
+  MyGlueJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: glue-script-job
+      Role: arn:aws:iam::123456789012:role/GlueExecutionRole
+      Command:
+        Name: glueetl
+        ScriptLocation: s3://my-bucket/scripts/glue_script.py
+        PythonVersion: 3
+      GlueVersion: 3.0
+      DefaultArguments:
+        --job-language: python
+        --TempDir: s3://my-bucket/temp/
+        --enable-continuous-cloudwatch-log: true
+      MaxRetries: 1
+      Timeout: 10
+      MaxCapacity: 2

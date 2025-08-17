@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Stack SAM unificado con Lambda + Glue Job para procesamiento de datos en S3.
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: nodejs18.x
+    Architectures:
+      - x86_64
+
+Resources:
+  HelloLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Events:
+        HelloAPI:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+
+  GlueJob:
+    Type: AWS::Glue::Job
+    Properties:
+      Name: glue-script-job
+      Role: arn:aws:iam::<TU_ID_CUENTA>:role/GlueExecutionRole
+      Command:
+        Name: glueetl
+        ScriptLocation: s3://<TU_BUCKET>/scripts/glue_script.py
+        PythonVersion: 3
+      GlueVersion: 3.0
+      ExecutionProperty:
+        MaxConcurrentRuns: 1
+      MaxRetries: 0
+      Timeout: 10
+      NumberOfWorkers: 2
+      WorkerType: G.1X

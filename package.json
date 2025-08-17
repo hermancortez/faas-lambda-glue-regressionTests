@@ -1,0 +1,12 @@
+{
+  "name": "lambda-api",
+  "version": "1.0.0",
+  "description": "Sample Lambda API",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
